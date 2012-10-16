@@ -14,6 +14,15 @@ function get(l)
    return layers[l]
 end
 
+function indexOf(layer)
+   local idx = -1
+   repeat idx = idx + 1 until layers[idx] == nil or layers[idx] == layer
+   if idx == table.getn(layers) then
+      return nil
+   else
+      return idx
+   end
+end
 
 function add()
    layer = MOAILayer2D.new()
@@ -22,9 +31,8 @@ function add()
 end
 
 function remove(layer)
-   local idx = -1
-   repeat idx = idx + 1 until layers[idx] == nil or layers[idx] == layer
-   if layers[idx] == layer then
+   local idx = indexOf(layer)
+   if idx ~= nil then
       table.remove(layers, idx)
       return true
    else
