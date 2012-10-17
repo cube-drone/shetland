@@ -38,4 +38,4 @@ local clr = config.window_clear_color
 MOAIGfxDevice.setClearColor(1, 1, 1, 1)
 MOAIRenderMgr:pushRenderPass(layer)
 
-util.repl()
+util:repl()
