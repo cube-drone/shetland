@@ -3,7 +3,7 @@ module(..., package.seeall)
 local layers = {}
 
 function getBottom() 
-   return layers[0]
+   return layers[1]
 end
 
 function getTop()
