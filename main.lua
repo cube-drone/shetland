@@ -1,9 +1,12 @@
 package.path = package.path .. ";./?.lua"
 
+-- Our additions to MOAI
+
 require "config"
 require "layers"
 require "tiles"
 require "util"
+require "render"
 
 -- Window configuration
 
@@ -21,24 +24,13 @@ MOAISim.openWindow(config.window_name, config.window_width, config.window_height
 
 -- Need a viewport list
 
-viewport = MOAIViewport.new()
-viewport:setSize(config.window_width, config.window_height)
-viewport:setScale(config.window_width, config.window_height)
-
--- From layer list
-
-layer = layers:add()
-layer:setViewport(viewport)
+config.viewport = MOAIViewport.new()
+config.viewport:setSize(config.window_width, config.window_height)
+config.viewport:setScale(config.window_width, config.window_height)
 
 -- From tile sheet list
-
-local tiles_1 = tiles.add("art/tiles_1.png", 5, 5)
-local tiles_2 = tiles.add("art/tiles_2.png", 5, 5)
-
--- Need render manager
-local clr = config.window_clear_color
-MOAIGfxDevice.setClearColor(1, 1, 1, 1)
-MOAIRenderMgr:pushRenderPass(layer)
+local game = assert(loadfile("game/start.lua"))
+game()
 
 -- local repl_thread = MOAICoroutine.new()
 -- repl_thread.run(repl_thread, util.repl)

@@ -2,6 +2,10 @@ module(..., package.seeall)
 
 local layers = {}
 
+function getLayers()
+   return layers
+end
+
 function getBottom() 
    return layers[1]
 end
