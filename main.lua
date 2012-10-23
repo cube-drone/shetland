@@ -22,15 +22,10 @@ end
 
 MOAISim.openWindow(config.window_name, config.window_width, config.window_height)
 
--- Need a viewport list
-
+-- Need a viewport list?
 config.viewport = MOAIViewport.new()
 config.viewport:setSize(config.window_width, config.window_height)
 config.viewport:setScale(config.window_width, config.window_height)
 
--- From tile sheet list
 local game = assert(loadfile("game/start.lua"))
 game()
-
--- local repl_thread = MOAICoroutine.new()
--- repl_thread.run(repl_thread, util.repl)
