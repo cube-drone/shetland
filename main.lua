@@ -29,3 +29,4 @@ config.viewport:setScale(config.viewport_width, config.viewport_height)
 
 local game = assert(loadfile("game/start.lua"))
 game()
+

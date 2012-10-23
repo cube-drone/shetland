@@ -6,9 +6,9 @@ function get(file_name)
    return tiles[file_name]
 end
 
-function add(file_name, size_w, size_h)
+function add(type, file_name, size_w, size_h)
    if tiles[file_name] == nil then
-      tiles[file_name] = MOAITileDeck2D.new()
+      tiles[file_name] = type.new()
       tiles[file_name]:setTexture(file_name)
       tiles[file_name]:setSize(size_w, size_h)
       print("[tiles] Loaded tilesheet " .. file_name .. " (" .. size_w .. ", " .. size_h .. ")")

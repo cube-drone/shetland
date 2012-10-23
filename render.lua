@@ -6,6 +6,6 @@ function init()
 
    for idx,layer in ipairs(layers:getLayers()) do
       print("[render] Pushing layer " .. idx)
-      MOAIRenderMgr:pushRenderPass(layer)
+      MOAIRenderMgr:pushRenderPass(layers:get(idx))
    end
 end
