@@ -1,47 +1,19 @@
-module(..., package.seeall)
+require "array"
 
-local layers = {}
+layers = Array:new()
 
-function getLayers()
-   return layers
+function layers:addLayer()
+    layer = MOAILayer2D.new()
+    self:append( layer )
+    print("[layers] Added layer")
+    return self:last()
 end
 
-function getBottom() 
-   return layers[1]
+function layers:getLayers()
+   return self:getRaw()
 end
 
-function getTop()
-   return layers[table.getn(layers)]
-end
-
-function get(l)
-   return layers[l]
-end
-
-function indexOf(layer)
-   local idx = -1
-   repeat idx = idx + 1 until layers[idx] == nil or layers[idx] == layer
-   if idx == table.getn(layers) then
-      return nil
-   else
-      return idx
-   end
-end
-
-function add()
-   layer = MOAILayer2D.new()
-   table.insert(layers, layer)
-   print("[layers] Added layer")
-   return getTop()
-end
-
-function remove(layer)
-   local idx = indexOf(layer)
-   if idx ~= nil then
-      table.remove(layers, idx)
-      print("[layers] Removed layer")
-      return true
-   else
-      return false
-   end
+function layers:removeLayer(layer)
+    self:remove(layer)
+    print("[layers] Removed layer")
 end

@@ -7,7 +7,7 @@ local tiles_1 = tiles.add(MOAITileDeck2D, "art/tiles_1.png", 5, 5)
 local tiles_2 = tiles.add(MOAITileDeck2D, "art/tiles_2.png", 5, 5)
 
 -- From layer list
-local map_layer = layers:add()
+local map_layer = layers:addLayer()
 map_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(map_layer)
 
