@@ -7,7 +7,7 @@ require "util"
 
 -- Window configuration
 
-local window__width = MOAIEnvironment.screenWidth
+local window_width = MOAIEnvironment.screenWidth
 local window_height = MOAIEnvironment.screenHeight
 
 if window_width ~= nil then
