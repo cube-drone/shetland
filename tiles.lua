@@ -13,7 +13,7 @@ function add(file_name, size_w, size_h)
       sheet:setTexture(file_name)
       sheet:setSize(size_w, size_h)
    end
-   return tables[file_name]
+   return tiles[file_name]
 end
 
 function remove(sheet)

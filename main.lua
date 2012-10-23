@@ -1,6 +1,8 @@
+package.path = package.path .. ";./?.lua"
+
 require "config"
 require "layers"
--- require "tiles"
+require "tiles"
 require "util"
 
 -- Window configuration
@@ -30,12 +32,13 @@ layer:setViewport(viewport)
 
 -- From tile sheet list
 
--- local tiles_1 = tiles.add("art/tiles_1.png", 5, 5)
--- local tiles_2 = tiles.add("art/tiles_2.png", 5, 5)
+local tiles_1 = tiles.add("art/tiles_1.png", 5, 5)
+local tiles_2 = tiles.add("art/tiles_2.png", 5, 5)
 
 -- Need render manager
 local clr = config.window_clear_color
 MOAIGfxDevice.setClearColor(1, 1, 1, 1)
 MOAIRenderMgr:pushRenderPass(layer)
 
-util:repl()
+-- local repl_thread = MOAICoroutine.new()
+-- repl_thread.run(repl_thread, util.repl)
