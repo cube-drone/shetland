@@ -31,6 +31,7 @@ end
 function add()
    layer = MOAILayer2D.new()
    table.insert(layers, layer)
+   print("[layers] Added layer")
    return getTop()
 end
 
@@ -38,6 +39,7 @@ function remove(layer)
    local idx = indexOf(layer)
    if idx ~= nil then
       table.remove(layers, idx)
+      print("[layers] Removed layer")
       return true
    else
       return false

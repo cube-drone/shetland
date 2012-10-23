@@ -25,7 +25,7 @@ MOAISim.openWindow(config.window_name, config.window_width, config.window_height
 -- Need a viewport list?
 config.viewport = MOAIViewport.new()
 config.viewport:setSize(config.window_width, config.window_height)
-config.viewport:setScale(config.window_width, config.window_height)
+config.viewport:setScale(config.viewport_width, config.viewport_height)
 
 local game = assert(loadfile("game/start.lua"))
 game()
