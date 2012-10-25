@@ -57,15 +57,9 @@ function Array:clear()
     self.data = {}
 end
 
-local array_1 = Array:new()
-
-array_1:append( "bitchtits" )
-array_1:append( "mitchfits" )
-array_1:append( "titbitches" )
-assert( array_1:len() == 3, "arrays are broken." )
-assert( array_1:last() == "titbitches", "arrays are broken." )
-assert( array_1:first() == "bitchtits", "arrays are broken." )
-
-array_2 = Array:new()
-assert( array_2:len() == 0, "arrays are broken." )
+function Array:each( fn )
+    for i,v in ipairs(self.data) do 
+        fn( v )
+    end
+end
 

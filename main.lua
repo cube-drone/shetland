@@ -7,6 +7,7 @@ require "layers"
 require "tiles"
 require "util"
 require "render"
+require "input"
 
 -- Window configuration
 
