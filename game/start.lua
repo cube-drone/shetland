@@ -2,6 +2,10 @@
 -- Hurray, it's a game!
 --------------------------------------------------------------------------------
 
+-- Game Loads
+local input = assert(loadfile("game/input.lua"))
+input()
+
 -- From tile sheet list
 local tiles_1 = tiles.add(MOAITileDeck2D, "art/tiles_1.png", 5, 5)
 local tiles_2 = tiles.add(MOAITileDeck2D, "art/tiles_2.png", 5, 5)
