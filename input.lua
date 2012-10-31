@@ -1,6 +1,6 @@
 module(..., package.seeall)
 
-require 'util'
+require 'log'
 
 local eventCallbacks = {}
 
@@ -18,7 +18,7 @@ function registerEventCallback( event, callbackFunction )
         eventCallbacks[event] = Array:new()
     end
     eventCallbacks[event]:append( callbackFunction ) 
-    print("[input] Registered event callback " .. callbackFunction .. " to event " .. event)
+    log.log('input', 'INFO', "Registered event callback " .. callbackFunction .. " to event " .. event)
 end
 
 function registerEvent( input, event)
@@ -26,20 +26,20 @@ function registerEvent( input, event)
         inputMap[input] = Array:new()
     end
     inputMap[input]:append( event )
-    print("[input] Registered event " .. event .. " to input " .. input)
+    log.log('input', 'INFO', "Registered event " .. event .. " to input " .. input)
 end
 
 local function dispatchEvent( input )
-   local event = inputMap[input]
-   if (event == nil) then
-      print("[input] No binding found for " .. input)
-      return
-   else
-      event = inputMap[key]
-   end
-   if(eventCallbacks[event] ~= nil) then
-      eventCallbacks[event]:each( function( item ) item() end )
-   end
+    local event = inputMap[input]
+    if (event == nil) then
+        log.log('input', 'INFO', "No binding found for " .. input)
+        return
+    else
+        event = inputMap[key]
+    end
+    if(eventCallbacks[event] ~= nil) then
+        eventCallbacks[event]:each( function( item ) item() end )
+    end
 end
  
 function keyPressed( pressed, down )
@@ -55,7 +55,7 @@ function keyPressed( pressed, down )
          dispatchEvent( key )
       end )
    if (not status) then
-      print ("[input] Error: " + err.code )
+      log.log( 'input', 'ERROR', err.code )
    end
 end
 
@@ -71,7 +71,7 @@ function mouseLeftPressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      print ("[input] Error: " + err.code )
+      log.log( 'input', 'ERROR', err.code )
    end
 end
 
@@ -87,7 +87,7 @@ function mouseMiddlePressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      print ("[input] Error: " + err.code )
+      log.log( 'input', 'ERROR', err.code )
    end
 end
 
@@ -103,7 +103,7 @@ function mouseRightPressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      print ("[input] Error: " + err.code )
+      log.log( 'input', 'ERROR', err.code )
    end
 end
 
@@ -116,47 +116,47 @@ function pointerMoved( x, y )
          dispatchEvent( key )
       end )
    if (not status) then
-      print ("[input] Error: " + err.code )
+      log.log( 'input', 'ERROR', err.code )
    end
 end
 
 if(MOAIInputMgr.device.keyboard) then
-    print("[input] Keyboard Detected")
+    log.log( 'input', 'INFO', "keyboard detected" )
     MOAIInputMgr.device.keyboard:setCallback( keyPressed )
 else
-    print("[input] No Keyboard Detected. ");
+    log.log( 'input', 'ERROR', "No keyboard detected." ) 
 end
 
 if(MOAIInputMgr.device.pointer) then
-   print("[input] Pointer Detected")
-   MOAIInputMgr.device.pointer:setCallback(pointerMoved)
+    log.log( 'input', 'INFO', "pointer detected" )
+    MOAIInputMgr.device.pointer:setCallback(pointerMoved)
 else
-   print("[input] No Pointer Detected")
+    log.log( 'input', 'ERROR', "No pointer detected." ) 
 end
 
 if(MOAIInputMgr.device.mouseLeft) then
-   print("[input] Left Mouse Button Detected")
-   MOAIInputMgr.device.mouseLeft:setCallback(mouseLeftPressed)
+    log.log( 'input', 'INFO', "Left Mouse Button detected" )
+    MOAIInputMgr.device.mouseLeft:setCallback(mouseLeftPressed)
 else
-   print("[input] No Left Mouse Button Detected")
+    log.log( 'input', 'ERROR', "No Left Moust Button detected" )
 end
 
 if(MOAIInputMgr.device.mouseMiddle) then
-   print("[input] Middle Mouse Button Detected")
-   MOAIInputMgr.device.mouseMiddle:setCallback(mouseMiddlePressed)
+    log.log( 'input', 'INFO', "Middle Mouse Button Detected")
+    MOAIInputMgr.device.mouseMiddle:setCallback(mouseMiddlePressed)
 else
-   print("[input] No Middle Mouse Button Detected")
+    log.log( 'input', 'ERROR', "No Middle Mouse Button Detected")
 end
 
 if(MOAIInputMgr.device.mouseRight) then
-   print("[input] Right Mouse Button Detected")
-   MOAIInputMgr.device.mouseRight:setCallback(mouseRightPressed)
+    log.log( 'input', 'INFO', "Right Mouse Button Detected")
+    MOAIInputMgr.device.mouseRight:setCallback(mouseRightPressed)
 else
-   print("[input] No Right Mouse Button Detected")
+    log.log( 'input', 'ERROR', "No Right Mouse Button Detected")
 end
 
 for k,v in pairs(inputMap) do
-    print( "[input] registering event callback for " .. v )
+    log.log( 'input', 'INFO', "registering event callback for " .. v )
     registerEventCallback( v, function() print("[input] "..v) end )
 end
 

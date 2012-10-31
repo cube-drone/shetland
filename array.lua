@@ -25,13 +25,12 @@ function Array:get(index)
 end
 
 function Array:indexOf(searchTerm)
-   local index = -1
-   repeat index = index + 1 until self.data[index] == nil or self.data[index] == searchTerm
-   if index == table.getn(self.data) then
-      return nil
-   else
-      return index
-   end
+    for i,v in ipairs(self.data) do 
+        if v == searchTerm then
+            return i
+        end
+    end
+    return nil
 end
 
 function Array:append(thing)
@@ -63,3 +62,12 @@ function Array:each( fn )
     end
 end
 
+function Array:join( char )
+    return table.concat(self.data, char) 
+end
+
+local a = Array:new( { data={"ONE", "TWO", "THREE"} })
+ -- oh god, Lua starts indices at 1. the horror.
+assert( a:indexOf("ONE") == 1 )
+assert( a:indexOf("TWO") == 2 )
+assert( a:indexOf("THREE") == 3 )

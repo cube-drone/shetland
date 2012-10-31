@@ -1,7 +1,9 @@
 package.path = package.path .. ";./?.lua"
 
 -- Our additions to MOAI
-
+require "array"
+require "settings"
+require "log"
 require "config"
 require "layers"
 require "tiles"
