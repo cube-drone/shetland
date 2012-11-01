@@ -5,7 +5,7 @@ function init()
    MOAIGfxDevice.setClearColor(1, 1, 1, 1)
 
    for idx,layer in ipairs(layers:getLayers()) do
-      print("[render] Pushing layer " .. idx)
+      log.info("render", "Pushing layer " .. idx)
       MOAIRenderMgr:pushRenderPass(layers:get(idx))
    end
 end

@@ -18,7 +18,7 @@ function registerEventCallback( event, callbackFunction )
         eventCallbacks[event] = Array:new()
     end
     eventCallbacks[event]:append( callbackFunction ) 
-    log.log('input', 'INFO', "Registered event callback " .. callbackFunction .. " to event " .. event)
+    log.info('input', "Registered event callback " .. callbackFunction .. " to event " .. event)
 end
 
 function registerEvent( input, event)
@@ -26,13 +26,13 @@ function registerEvent( input, event)
         inputMap[input] = Array:new()
     end
     inputMap[input]:append( event )
-    log.log('input', 'INFO', "Registered event " .. event .. " to input " .. input)
+    log.info('input', "Registered event " .. event .. " to input " .. input)
 end
 
 local function dispatchEvent( input )
     local event = inputMap[input]
     if (event == nil) then
-        log.log('input', 'INFO', "No binding found for " .. input)
+        log.info('input', "No binding found for " .. input)
         return
     else
         event = inputMap[key]
@@ -55,7 +55,7 @@ function keyPressed( pressed, down )
          dispatchEvent( key )
       end )
    if (not status) then
-      log.log( 'input', 'ERROR', err.code )
+      log.error( 'input', err.code )
    end
 end
 
@@ -71,7 +71,7 @@ function mouseLeftPressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      log.log( 'input', 'ERROR', err.code )
+      log.error( 'input', err.code )
    end
 end
 
@@ -87,7 +87,7 @@ function mouseMiddlePressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      log.log( 'input', 'ERROR', err.code )
+      log.error( 'input', err.code )
    end
 end
 
@@ -103,7 +103,7 @@ function mouseRightPressed( down )
          dispatchEvent( key )
       end )
    if (not status) then
-      log.log( 'input', 'ERROR', err.code )
+      log.error( 'input', err.code )
    end
 end
 
@@ -116,47 +116,47 @@ function pointerMoved( x, y )
          dispatchEvent( key )
       end )
    if (not status) then
-      log.log( 'input', 'ERROR', err.code )
+      log.error( 'input', err.code )
    end
 end
 
 if(MOAIInputMgr.device.keyboard) then
-    log.log( 'input', 'INFO', "keyboard detected" )
+    log.info( 'input', "keyboard detected" )
     MOAIInputMgr.device.keyboard:setCallback( keyPressed )
 else
-    log.log( 'input', 'ERROR', "No keyboard detected." ) 
+    log.error( 'input', "No keyboard detected." ) 
 end
 
 if(MOAIInputMgr.device.pointer) then
-    log.log( 'input', 'INFO', "pointer detected" )
+    log.info( 'input', "pointer detected" )
     MOAIInputMgr.device.pointer:setCallback(pointerMoved)
 else
-    log.log( 'input', 'ERROR', "No pointer detected." ) 
+    log.error( 'input', "No pointer detected." ) 
 end
 
 if(MOAIInputMgr.device.mouseLeft) then
-    log.log( 'input', 'INFO', "Left Mouse Button detected" )
+    log.info( 'input', "Left Mouse Button detected" )
     MOAIInputMgr.device.mouseLeft:setCallback(mouseLeftPressed)
 else
-    log.log( 'input', 'ERROR', "No Left Moust Button detected" )
+    log.error( 'input', "No Left Moust Button detected" )
 end
 
 if(MOAIInputMgr.device.mouseMiddle) then
-    log.log( 'input', 'INFO', "Middle Mouse Button Detected")
+    log.info( 'input', "Middle Mouse Button Detected")
     MOAIInputMgr.device.mouseMiddle:setCallback(mouseMiddlePressed)
 else
-    log.log( 'input', 'ERROR', "No Middle Mouse Button Detected")
+    log.error( 'input', "No Middle Mouse Button Detected")
 end
 
 if(MOAIInputMgr.device.mouseRight) then
-    log.log( 'input', 'INFO', "Right Mouse Button Detected")
+    log.info( 'input', "Right Mouse Button Detected")
     MOAIInputMgr.device.mouseRight:setCallback(mouseRightPressed)
 else
-    log.log( 'input', 'ERROR', "No Right Mouse Button Detected")
+    log.error( 'input', "No Right Mouse Button Detected")
 end
 
 for k,v in pairs(inputMap) do
-    log.log( 'input', 'INFO', "registering event callback for " .. v )
+    log.info( 'input', "registering event callback for " .. v )
     registerEventCallback( v, function() print("[input] "..v) end )
 end
 

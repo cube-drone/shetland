@@ -20,4 +20,16 @@ function log( log_type, log_level, message )
     end
 end
 
+function info( log_type, message )
+    log( log_type, "INFO", message )    
+end
+
+function warn( log_type, message )
+    log( log_type, "WARN", message )
+end
+
+function error( log_type, message )
+    log( log_type, "ERROR", message )
+end
+
 log( 'log', 'INFO', 'Logging initialized!' ) 

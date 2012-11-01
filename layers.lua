@@ -5,7 +5,7 @@ layers = Array:new()
 function layers:addLayer()
     layer = MOAILayer2D.new()
     self:append( layer )
-    print("[layers] Added layer")
+    log.info( "layers", "Added layer" )
     return self:last()
 end
 
@@ -15,5 +15,5 @@ end
 
 function layers:removeLayer(layer)
     self:remove(layer)
-    print("[layers] Removed layer")
+    log.info( "layers", "Removed layer" )
 end
