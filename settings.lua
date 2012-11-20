@@ -1,6 +1,11 @@
 module(..., package.seeall)
 
-local settingsFile = MOAIEnvironment.documentDirectory .. "\\settings.lua" 
+local baseDir = MOAIEnvironment.documentDirectory
+if baseDir == nil then
+   baseDir = "~/"
+end
+
+local settingsFile = baseDir .. "settings.lua" 
 
 local defaultSettings = [[
 
