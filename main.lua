@@ -10,6 +10,7 @@ require "tiles"
 require "util"
 require "render"
 require "input"
+require "map"
 
 -- Window configuration
 
