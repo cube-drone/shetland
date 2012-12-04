@@ -8,5 +8,8 @@ input.registerEvent('KEY_DOWN_3', 'MEDIUM')
 input.registerEvent('KEY_DOWN_4', 'FAST')
 input.registerEvent('KEY_DOWN_9', "PEW")
 
+input.registerEvent('MOUSE_LEFT_DOWN', 'PRIMARY_POINTER_DOWN')
+input.registerEvent('MOUSE_LEFT_UP', 'PRIMARY_POINTER_UP')
+
 -- Note that Moai doesn't have native support for 'arrow keys'
 -- because Moai is a jerk. 
