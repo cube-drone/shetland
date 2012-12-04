@@ -26,7 +26,7 @@ local map = Map:new(nil)
 local map_prop = MOAIProp2D.new()
 
 map_prop:setDeck(tiles_1)
-map_prop:setGrid(map:active_section())
+map_prop:setGrid(map:activeSection())
 map_prop:setLoc(0 - map.tile_width * (map.section_width / 2), 0 - map.tile_height * (map.section_height / 2))
 map_layer:insertProp(map_prop)
 

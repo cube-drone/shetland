@@ -7,13 +7,13 @@ function Map:new(m)
     m = m or { neighbours = {}, sections = {}, cur_i = 0, cur_j = 0, tile_width = config.map_tile_width, tile_height = config.map_tile_height, section_width = config.map_section_width, section_height = config.map_section_height, default_tile = config.map_default_tile }
     setmetatable(m, self)
     self.__index = Map
-    m:activate_section(0, 0)
+    m:activateSection(0, 0)
     return m
 end
 
 -- Recover from the cache or build a new entry
-function Map:section_cache(i, j)
-    if self:section_exists(i, j) then
+function Map:sectionCache(i, j)
+    if self:sectionExists(i, j) then
         return self.sections[i][j]
     else 
         log.info("map", "Initializing a new map section at (" .. i .. ", " .. j .. ")")
@@ -45,17 +45,17 @@ function Map:section_cache(i, j)
 end
 
 -- Check if exists
-function Map:section_exists(i, j)
+function Map:sectionExists(i, j)
     return self.sections[i] ~= nil and self.sections[i][j] ~= nil
 end
 
 -- Get the active section
-function Map:active_section()
-    return self:section_cache(self.cur_i, self.cur_j)
+function Map:activeSection()
+    return self:sectionCache(self.cur_i, self.cur_j)
 end
 
 -- Recover the an active neighbour
-function Map:active_neighbour(dir)
+function Map:activeNeighbour(dir)
     if dir == "left" then
         return self.neighbours[cur_i - 1][cur_j]
     elseif dir == "right" then
@@ -79,7 +79,7 @@ function Map:active_neighbour(dir)
 end
 
 -- Activate a section directly
-function Map:activate_section(i, j)
+function Map:activateSection(i, j)
     log.info("map", "Activating section (" .. i .. ", " .. j .. ")")
     self.neighbours = {}
     for i2 = -1,1,2 do
@@ -87,8 +87,8 @@ function Map:activate_section(i, j)
             if self.neighbours[i2] == nil then
                 self.neighbours[i2] = {}
             end 
-            if self:section_exists(i + i2, j + j2) then
-                self.neighbours[i2][j2] = self:section_cache(i + i2, j + j2)
+            if self:sectionExists(i + i2, j + j2) then
+                self.neighbours[i2][j2] = self:sectionCache(i + i2, j + j2)
             else
                 self.neighbours[i2][j2] = nil
             end
@@ -97,27 +97,27 @@ function Map:activate_section(i, j)
     self.cur_i = i
     self.cur_j = j
     log.info("map", "Activated section (" .. self.cur_i .. ", " .. self.cur_j .. ")")
-    return self:section_cache(self.cur_i, self.cur_j)
+    return self:sectionCache(self.cur_i, self.cur_j)
 end
 
 -- Activate an adjacent section
-function Map:activate_adjacent_section(dir)
+function Map:activateAdjacentSection(dir)
     if dir == "left" then
-        self:activate_section(cur_i - 1, cur_j)
+        self:activateSection(cur_i - 1, cur_j)
     elseif dir == "right" then
-        self:activate_section(cur_i + 1, cur_j)
+        self:activateSection(cur_i + 1, cur_j)
     elseif dir == "up" then
-        self:activate_section(cur_i, cur_j - 1)
+        self:activateSection(cur_i, cur_j - 1)
     elseif dir == "down" then
-        self:activate_section(cur_i, cur_j + 1)
+        self:activateSection(cur_i, cur_j + 1)
     elseif dir == "leftup" then
-        self:activate_section(cur_i - 1, cur_j - 1)
+        self:activateSection(cur_i - 1, cur_j - 1)
     elseif dir == "leftdown" then
-        self:activate_section(cur_i - 1, cur_j + 1)
+        self:activateSection(cur_i - 1, cur_j + 1)
     elseif dir == "rightup" then
-        self:activate_section(cur_i + 1, cur_j - 1)
+        self:activateSection(cur_i + 1, cur_j - 1)
     elseif dir == "rightdown" then
-        self:activate_section(cur_i + 1, cur_j + 1)
+        self:activateSection(cur_i + 1, cur_j + 1)
     else
         log.error("map", "Unknown adjacency direction '" .. dir .. "'")
     end
@@ -145,10 +145,10 @@ end
 
 -- Sets tilemap index for tile x,y on the active tile
 function Map:setTile(x, y, value)
-   return self:active_section():setTile(x, y, value)
+   return self:activeSection():setTile(x, y, value)
 end
 
 -- Sets flags for tile x,y on the active tile
 function Map:setTileFlags(x, y, mask)
-   return self:active_section():setTileFlags(x, y, mask)
+   return self:activeSection():setTileFlags(x, y, mask)
 end
