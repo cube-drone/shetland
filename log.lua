@@ -3,8 +3,6 @@ module(..., package.seeall)
 require "array"
 require "settings"
 
-settings = settings.load()
-
 local log_levels = Array:new( { data={ "ERROR", "WARN", "INFO" } })
 
 function log( log_type, log_level, message )
