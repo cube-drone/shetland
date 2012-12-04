@@ -27,7 +27,7 @@ local map_prop = MOAIProp2D.new()
 
 map_prop:setDeck(tiles_1)
 map_prop:setGrid(map:active_section())
-map_prop:setPiv(config.viewport_width / 2, (config.viewport_height / 2) + (128 * 6.25))
+map_prop:setLoc(0 - map.tile_width * (map.section_width / 2), 0 - map.tile_height * (map.section_height / 2))
 map_layer:insertProp(map_prop)
 
 local bg_map = MOAIGrid.new()

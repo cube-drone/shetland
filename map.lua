@@ -128,14 +128,17 @@ end
 function Map:worldToMap(map_prop, x, y)
     local prop_x, prop_y = map_prop:getLoc()
 
-    local big_tile_x = (x - prop_x) % self.tile_width
-    local big_tile_y = (y - prop_y) % self.tile_height
+    x = x - prop_x
+    y = y - prop_y
 
-    local tile_x = big_tile_x % self.section_width
-    local tile_y = big_tile_y % self.section_height
-    
-    local section_i = ( big_tile_x - tile_x ) / self.section_width
-    local section_j = ( big_tile_y - tile_y ) / self.section_height
+    local section_world_width = self.section_width * self.tile_width
+    local section_world_height = self.section_height * self.tile_height
+
+    local section_i = (x - (x % section_world_width)) / section_world_width
+    local section_j = (y - (y % section_world_height)) / section_world_height
+
+    local tile_x = (x - (section_i * section_world_width) - (x % self.tile_width)) / self.tile_width
+    local tile_y = (y - (section_j * section_world_height) - (y % self.tile_height)) / self.tile_height
 
     return section_i, section_j, tile_x, tile_y
 end
