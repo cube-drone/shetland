@@ -50,6 +50,8 @@ function handleClicks()
     log.info('game', "At world coords x=" .. world_x .. " y=" .. world_y)
     local i,j,x,y = map:worldToMap(map_prop, world_x, world_y)
     log.info('game', "At map coords i=" .. i .. " j=" .. j .. " x=" .. x .. " y=" .. y)
+
+    map:setTile(x, y, 0)
 end
 
 input.registerEventCallback( 'PRIMARY_POINTER_DOWN', handleClicks );

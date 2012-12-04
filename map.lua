@@ -137,8 +137,18 @@ function Map:worldToMap(map_prop, x, y)
     local section_i = (x - (x % section_world_width)) / section_world_width
     local section_j = (y - (y % section_world_height)) / section_world_height
 
-    local tile_x = (x - (section_i * section_world_width) - (x % self.tile_width)) / self.tile_width
-    local tile_y = (y - (section_j * section_world_height) - (y % self.tile_height)) / self.tile_height
+    local tile_x = (x - (section_i * section_world_width) - (x % self.tile_width)) / self.tile_width + 1
+    local tile_y = (y - (section_j * section_world_height) - (y % self.tile_height)) / self.tile_height + 1
 
     return section_i, section_j, tile_x, tile_y
+end
+
+-- Sets tilemap index for tile x,y on the active tile
+function Map:setTile(x, y, value)
+   return self:active_section():setTile(x, y, value)
+end
+
+-- Sets flags for tile x,y on the active tile
+function Map:setTileFlags(x, y, mask)
+   return self:active_section():setTileFlags(x, y, mask)
 end
