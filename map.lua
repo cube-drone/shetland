@@ -1,4 +1,6 @@
 -- Handles big matrices of MOAIGrid maps
+-- A map is a giant grid of MOAIGrids, which aren't instantiated 
+--      until they're accessed with section_cache.
 
 Map = { neighbours = {}, sections = {}, cur_i = 0, cur_j = 0 }
 
