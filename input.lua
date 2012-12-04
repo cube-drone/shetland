@@ -36,6 +36,7 @@ local function dispatchEvent( input )
         return
     else
         event = inputMap[key]
+        log.info('input', "Dispatching " .. event .. " for input " .. input);
     end
     if(eventCallbacks[event] ~= nil) then
         eventCallbacks[event]:each( function( item ) item() end )
@@ -54,7 +55,7 @@ function keyPressed( pressed, down )
          key = key .. string.upper(string.char(tostring(pressed)))
          dispatchEvent( key )
       end )
-   if (not status) then
+   if (not status) and err.code ~= nil then
       log.error( 'input', err.code )
    end
 end
@@ -70,7 +71,7 @@ function mouseLeftPressed( down )
          end 
          dispatchEvent( key )
       end )
-   if (not status) then
+   if (not status) and err.code ~= nil then
       log.error( 'input', err.code )
    end
 end
@@ -86,7 +87,7 @@ function mouseMiddlePressed( down )
          end 
          dispatchEvent( key )
       end )
-   if (not status) then
+   if (not status) and err.code ~= nil then
       log.error( 'input', err.code )
    end
 end
@@ -102,7 +103,7 @@ function mouseRightPressed( down )
          end 
          dispatchEvent( key )
       end )
-   if (not status) then
+   if (not status) and err.code ~= nil then
       log.error( 'input', err.code )
    end
 end
@@ -115,7 +116,7 @@ function pointerMoved( x, y )
          pointer.y = y
          dispatchEvent( key )
       end )
-   if (not status) then
+   if (not status) and err.code ~= nil then
       log.error( 'input', err.code )
    end
 end
