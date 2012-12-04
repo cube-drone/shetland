@@ -1,19 +1,25 @@
+module(..., package.seeall)
+
 require "array"
 
-layers = Array:new()
+the_layers = Array:new()
 
-function layers:addLayer()
+function addLayer()
     layer = MOAILayer2D.new()
-    self:append( layer )
+    the_layers:append( layer )
     log.info( "layers", "Added layer" )
-    return self:last()
+    return the_layers:last()
 end
 
-function layers:getLayers()
-   return self:getRaw()
+function getLayers()
+   return the_layers:getRaw()
 end
 
-function layers:removeLayer(layer)
-    self:remove(layer)
+function removeLayer(layer)
+    the_layers:remove(layer)
     log.info( "layers", "Removed layer" )
+end
+
+function get(idx)
+    return the_layers:get(idx)
 end
