@@ -1,10 +1,10 @@
 module(..., package.seeall)
 
 require 'log'
+require 'array'
 
 eventCallbacks = {}
 
--- We should probably... load this from somewhere? 
 inputMap = {}
 
 pointer = { x = 0, y = 0 }
@@ -38,15 +38,16 @@ end
 
 local function dispatchEvent( key )
     local events = inputMap[key]
-    if (event == nil) then
-        log.warn('input', "No binding found for " .. key)
+    if (events == nil) then
+        log.info('input', "No binding found for " .. key)
         return
     else
-        log.info('input', "Dispatching input " .. key);
-
         for idx,event in ipairs(events:getRaw()) do
             if(eventCallbacks[event] ~= nil) then
-                eventCallbacks[event]:each( function( item ) item() end )
+                for idx,callback in ipairs(eventCallbacks[event]:getRaw()) do
+                    log.info('input', "Dispatching event " .. event)
+                    callback()
+                end
             end
         end
     end
