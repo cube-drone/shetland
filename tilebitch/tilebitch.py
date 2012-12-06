@@ -21,7 +21,7 @@
     $> mv shamwow.png tiles/shamwow.png
 
     $> echo 'Running Tilebitch'
-    $> python tilebitch.py --input tiles --output tile_output 
+    $> python tilebitch.py --input tiles --output tile_output --output_moai game/tile_output/ 
 
     $> echo 'Produces this:'
     $> ls tile_output
@@ -32,20 +32,24 @@
     $> cat tile_output/set_one.lua
         -- this is an tilebitch generated file
         -- warning: your modifications will be overwritten
+        source = "game/tile_output/set_one.png"
         height = 128
         width = 128
+        length = 2
         tiles = {
-            hate_poop = 0x00,
-            moustache_ride = 0x01
+            hate_poop = 0x1,
+            moustache_ride = 0x2
         }
     $> cat tile_output/set_two.lua
         -- this is an tilebitch generated file
         -- warning: your modifications will be overwritten
+        source = "game/tile_output/set_two.png"
         height = 16
         width = 16
+        length = 2
         tiles = {
-            tromboner = 0x00,
-            shamwow = 0x01
+            tromboner = 0x1,
+            shamwow = 0x2
         }
 
 """
@@ -63,6 +67,8 @@ parser.add_argument( '--input', dest='input', default=False,
 parser.add_argument( '--output', dest='output', default=False,
     help='target directory')
 
+parser.add_argument( '--output_moai', dest='output_moai', default=False,
+    help='the output directory from the point of view of the moai base directory.')
 args = parser.parse_args()
 
 if not os.path.exists( args.input ):
@@ -120,6 +126,7 @@ for directory_name, list_of_files in files.iteritems():
 module(..., package.seeall)
 --- this is a tilebitch generated file
 --- warning: your modifications will be overwritten\n"""
+    string += "source = \"" + args.output_moai + directory_name + ".png"  + "\"\n"
     string += "length = " + str(len(list_of_files)) + "\n"
     string += "height = " + str(height) + "\n"
     string += "width = " + str(width) + "\n"

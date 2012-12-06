@@ -20,7 +20,7 @@ function add(type, file_name, size_w, size_h)
 end
 
 function addTileset( tileset )
-    return add(MOAITileDeck2D, tileset.source, tileset.size, 1)
+    return add(MOAITileDeck2D, tileset.source, tileset.length, 1)
 end
 
 function remove(sheet)

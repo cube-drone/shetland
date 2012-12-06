@@ -1,12 +1,14 @@
-require "game.tiles"
+require "game.generated.base"
 
-local tiles_1 = tiles.addTileset( game.tiles.base ) 
+print( game.generated.base.source )
+
+local tiles_1 = tiles.addTileset( game.generated.base ) 
 local map_layer = layers.addLayer()
 
 map_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(map_layer)
 
-local map = Map:new(nil, game.tiles.base.width, game.tiles.base.width, game.tiles.base.empty.tile)
+local map = Map:new(nil, game.generated.base.width, game.generated.base.height, game.generated.base.tiles.empty)
 local map_prop = MOAIProp2D.new()
 
 map_prop:setDeck(tiles_1)
@@ -22,7 +24,7 @@ function handleClicks()
     local i,j,x,y = map:worldToMap(map_prop, world_x, world_y)
     log.info('game', "At map coords i=" .. i .. " j=" .. j .. " x=" .. x .. " y=" .. y)
 
-    map:setTile(x, y, game.tiles.base.cafetoriax.tile)
+    map:setTile(x, y, game.generated.base.tiles.thresher)
 end
 
 input.registerEventCallback( 'PRIMARY_POINTER_DOWN', handleClicks );
