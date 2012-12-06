@@ -41,41 +41,28 @@ local function initAnimation(p)
             while action:isBusy() do
                 coroutine:yield()
             end 
-            p.index = p.index + (4 * direction)
+
+            local frame_list = nil
             if p.direction == Person.MOVE_TOWARDS then
-                if p.index > 13 then
-                    p.index = 9
-                    direction = direction * -1
-                elseif p.index < 1 then
-                    p.index = 5
-                    direction = direction * -1
-                end 
+                frame_list = walk_towards 
             elseif p.direction == Person.MOVE_AWAY then
-                if p.index > 14 then
-                    p.index = 10
-                    direction = direction * -1
-                elseif p.index < 2 then
-                    p.index = 6
-                    direction = direction * -1
-                end 
+                frame_list = walk_away 
             elseif p.direction == Person.MOVE_RIGHT then
-                if p.index > 15 then
-                    p.index = 11
-                    direction = direction * -1
-                elseif p.index < 3 then
-                    p.index = 7
-                    direction = direction * -1
-                end 
+                frame_list = walk_right
             elseif p.direction == Person.MOVE_LEFT then
-                if p.index > 16 then
-                    p.index = 12
-                    direction = direction * -1
-                elseif p.index < 4 then
-                    p.index = 8
-                    direction = direction * -1
-                end 
+                frame_list = walk_left
             end
-            p.prop:setIndex(p.index)
+
+            local next_index = p.index + direction
+            if frame_list[next_index] ~= nil then
+                p.index = next_index
+            else 
+                direction = direction * -1
+                p.index = p.index + direction
+            end 
+
+            p.prop:setIndex(frame_list[p.index])
+
             coroutine:yield()
         end
     end
