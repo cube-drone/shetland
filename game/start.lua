@@ -2,13 +2,15 @@
 -- Hurray, it's a game!
 --------------------------------------------------------------------------------
 
+require "game.tiles" 
+
 -- Game Loads
 local input_config = assert(loadfile("game/input.lua"))
 input_config()
 
 -- From tile sheet list
 local background_tile = tiles.add(MOAITileDeck2D, "art/background.png", 1, 1)
-local tiles_1 = tiles.add(MOAITileDeck2D, "art/tiles_1.png", 5, 5)
+local tiles_1 = tiles.add(MOAITileDeck2D, game.tiles.base.source, 7, 1)
 local tiles_2 = tiles.add(MOAITileDeck2D, "art/tiles_2.png", 5, 5)
 
 -- From layer list
@@ -22,7 +24,7 @@ MOAIRenderMgr.pushRenderPass(map_layer)
 
 render:init()
 
-local map = Map:new(nil)
+local map = Map:new(nil, game.tiles.base.width, game.tiles.base.width, game.tiles.base.empty.tile)
 local map_prop = MOAIProp2D.new()
 
 map_prop:setDeck(tiles_1)
@@ -51,7 +53,7 @@ function handleClicks()
     local i,j,x,y = map:worldToMap(map_prop, world_x, world_y)
     log.info('game', "At map coords i=" .. i .. " j=" .. j .. " x=" .. x .. " y=" .. y)
 
-    map:setTile(x, y, 0)
+    map:setTile(x, y, game.tiles.base.cafetoriax.tile)
 end
 
 input.registerEventCallback( 'PRIMARY_POINTER_DOWN', handleClicks );

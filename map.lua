@@ -4,9 +4,9 @@
 
 Map = { neighbours = {}, sections = {}, cur_i = 0, cur_j = 0 }
 
-function Map:new(m)
+function Map:new(m, tile_width, tile_height, default_tile)
     assert (self ~= nil, "It's :mew, not .meow, human.")
-    m = m or { neighbours = {}, sections = {}, cur_i = 0, cur_j = 0, tile_width = config.map_tile_width, tile_height = config.map_tile_height, section_width = config.map_section_width, section_height = config.map_section_height, default_tile = config.map_default_tile }
+    m = m or { neighbours = {}, sections = {}, cur_i = 0, cur_j = 0, tile_width = tile_width, tile_height = tile_height, section_width = config.map_section_width, section_height = config.map_section_height, default_tile = default_tile }
     setmetatable(m, self)
     self.__index = Map
     m:activateSection(0, 0)
