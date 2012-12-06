@@ -2,6 +2,7 @@
 module(..., package.seeall)
 --- this is a tilebitch generated file
 --- warning: your modifications will be overwritten
+length = 5
 height = 128
 width = 128
 tiles = { 

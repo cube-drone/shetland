@@ -1,6 +1,6 @@
 require "game.tiles"
 
-local tiles_1 = tiles.add(MOAITileDeck2D, game.tiles.base.source, 7, 1)
+local tiles_1 = tiles.addTileset( game.tiles.base ) 
 local map_layer = layers.addLayer()
 
 map_layer:setViewport(config.viewport)

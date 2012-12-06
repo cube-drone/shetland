@@ -120,6 +120,7 @@ for directory_name, list_of_files in files.iteritems():
 module(..., package.seeall)
 --- this is a tilebitch generated file
 --- warning: your modifications will be overwritten\n"""
+    string += "length = " + str(len(list_of_files)) + "\n"
     string += "height = " + str(height) + "\n"
     string += "width = " + str(width) + "\n"
     string += "tiles = { \n" 

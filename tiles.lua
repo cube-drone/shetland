@@ -8,6 +8,7 @@ function get(file_name)
    return tiles[file_name]
 end
 
+
 function add(type, file_name, size_w, size_h)
    if tiles[file_name] == nil then
       tiles[file_name] = type.new()
@@ -16,6 +17,10 @@ function add(type, file_name, size_w, size_h)
       log.info("tiles", "Loaded tilesheet " .. file_name .. " (" .. size_w .. ", " .. size_h .. ")")
    end
    return tiles[file_name]
+end
+
+function addTileset( tileset )
+    return add(MOAITileDeck2D, tileset.source, tileset.size, 1)
 end
 
 function remove(sheet)
