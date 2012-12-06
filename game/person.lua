@@ -13,10 +13,10 @@ Person.MOVE_AWAY = 1
 Person.MOVE_RIGHT = 2
 Person.MOVE_LEFT = 3
 
-local walk_towards = { 1, 5, 9, 13 }
-local walk_away = { 2, 6, 10, 14 }
-local walk_right = { 3, 7, 11, 15 }
-local walk_left = { 4, 8, 12, 16 }
+local walk_towards = { 5, 9 }
+local walk_away = { 6, 10 }
+local walk_right = { 11, 15, 3 }
+local walk_left = { 12, 16, 4 }
 
 local function initProp(p)
     p.prop = MOAIProp2D.new()
