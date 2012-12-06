@@ -13,6 +13,7 @@ gui_layer = nil
 require 'game/input'
 require 'game/background'
 require 'game/map'
+require "game.tiles" 
 require 'game/person'
 
 render:init()
