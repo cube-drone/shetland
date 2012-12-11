@@ -1,7 +1,5 @@
 require "game.generated.base"
 
-print( game.generated.base.source )
-
 local tiles_1 = tiles.addTileset( game.generated.base ) 
 local map_layer = layers.addLayer()
 
