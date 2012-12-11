@@ -1,6 +1,8 @@
 person_layer = layers.addLayer()
 
-local person_tiles = tiles.add(MOAITileDeck2D, "art/person.png", 4, 4)
+require "game.generated.mans"
+
+local person_tiles = tiles.addTileset( game.generated.mans ) 
 person_tiles:setRect(-16, -16, 16, 16)
 
 person_layer:setViewport(config.viewport)
@@ -13,10 +15,10 @@ Person.MOVE_AWAY = 1
 Person.MOVE_RIGHT = 2
 Person.MOVE_LEFT = 3
 
-local walk_towards = { 5, 9 }
-local walk_away = { 6, 10 }
-local walk_right = { 11, 15, 3 }
-local walk_left = { 12, 16, 4 }
+local walk_towards = { game.generated.mans.tiles.down_1, game.generated.mans.tiles.down_2 }
+local walk_away = { game.generated.mans.tiles.up_1, game.generated.mans.tiles.up_2 }
+local walk_right = { game.generated.mans.tiles.right_1, game.generated.mans.tiles.right_2 }
+local walk_left = { game.generated.mans.tiles.left_1, game.generated.mans.tiles.left_2 }
 
 local function initProp(p)
     p.prop = MOAIProp2D.new()
