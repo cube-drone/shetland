@@ -127,22 +127,32 @@ end
 
 -- Converts world coordinates to Map coordinates
 -- Returns { i = section i, j = section j, x = tile x, y = tile y }
-function Map:worldToMap(map_prop, x, y)
+function Map:stageToMap(map_prop, x, y)
+    -- Get the base location, in stage coordinates, of the map prop
     local prop_x, prop_y = map_prop:getLoc()
 
+    -- Get the relative location in stage coordinates
     x = x - prop_x
     y = y - prop_y
 
+    -- Get the total width and height of this portion of the grid (maps to a MOAIGrid object dimensions)
     local section_world_width = self.section_width * self.tile_width
     local section_world_height = self.section_height * self.tile_height
 
+    -- We now have enough to compute the section i,j; part 1:
     local section_i = (x - (x % section_world_width)) / section_world_width
     local section_j = (y - (y % section_world_height)) / section_world_height
 
+    -- The value needs to be 'bucketed' in order to complete the i,j; part 2:
     local tile_x = (x - (section_i * section_world_width) - (x % self.tile_width)) / self.tile_width + 1
     local tile_y = (y - (section_j * section_world_height) - (y % self.tile_height)) / self.tile_height + 1
 
+    -- Done!
     return section_i, section_j, tile_x, tile_y
+end
+
+function Map:mapToStage(map_prop, i, j)
+    
 end
 
 -- Sets tilemap index for tile x,y on the active tile

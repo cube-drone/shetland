@@ -19,7 +19,7 @@ function handleClicks()
     log.info('game', "Got pointer, it's at x=" .. pointer.x .. " y=" .. pointer.y)
     local world_x, world_y = map_layer:wndToWorld(pointer.x, pointer.y)
     log.info('game', "At world coords x=" .. world_x .. " y=" .. world_y)
-    local i,j,x,y = map:worldToMap(map_prop, world_x, world_y)
+    local i,j,x,y = map:stageToMap(map_prop, world_x, world_y)
     log.info('game', "At map coords i=" .. i .. " j=" .. j .. " x=" .. x .. " y=" .. y)
 
     map:setTile(x, y, game.generated.base.tiles.thresher)
