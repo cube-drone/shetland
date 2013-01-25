@@ -16,8 +16,12 @@ require 'game.map'
 require 'game.grid'
 require "game.tiles" 
 require 'game.person'
+require 'game.simulation'
 
 render:init()
+
+local simulation_grid = SimulationGrid:new()
+simulation_grid:mainLoop()
 
 local dude = Person:new(nil)
 
@@ -26,6 +30,4 @@ input.registerEventCallback("DOWN", function() dude:setDirection(Person.MOVE_TOW
 input.registerEventCallback("LEFT", function() dude:setDirection(Person.MOVE_LEFT) end )
 input.registerEventCallback("RIGHT", function() dude:setDirection(Person.MOVE_RIGHT) end )
 
-
-
-
+input.registerEventCallback( 'PRIMARY_POINTER_DOWN', simulation_grid:handleClicks() );
