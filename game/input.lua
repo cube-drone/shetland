@@ -6,7 +6,7 @@ input.registerEvent('KEY_DOWN_1', 'PAUSE')
 input.registerEvent('KEY_DOWN_2', 'SLOW')
 input.registerEvent('KEY_DOWN_3', 'MEDIUM')
 input.registerEvent('KEY_DOWN_4', 'FAST')
-input.registerEvent('KEY_DOWN_9', "PEW")
+input.registerEvent('KEY_DOWN_X', 'PEW')
 
 input.registerEvent('MOUSE_LEFT_DOWN', 'PRIMARY_POINTER_DOWN')
 input.registerEvent('MOUSE_LEFT_UP', 'PRIMARY_POINTER_UP')

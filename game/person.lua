@@ -8,7 +8,7 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
-Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 10, movement = { map = nil, total_time = 10, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil } }
+Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 10, movement = { map = nil, total_time = 10, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
 
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
@@ -73,6 +73,11 @@ local function initAnimation(p)
                 p.movement.current_time = p.movement.current_time + p.tick_speed
                 if p.movement.current_time > p.movement.total_time then
                     p.movement.current_time = p.movement.total_time
+
+                    p.movement.last_i = p.movement.next_i
+                    p.movement.last_j = p.movement.next_j
+                    p.movement.last_x = p.movement.next_x
+                    p.movement.last_y = p.movement.next_y
                 end
 
                 local percent = p.movement.curve:getValueAtTime(p.movement.current_time)
@@ -150,6 +155,12 @@ function Person:moveTo(i, j)
     self.movement.last_x = self.movement.next_x
     self.movement.last_y = self.movement.next_y
 
+    self.movement.last_i = self.movement.next_i
+    self.movement.last_j = self.movement.next_j
+
+    self.movement.next_i = i
+    self.movement.next_j = j
+
     self.movement.next_x = x
     self.movement.next_y = y
 
@@ -174,5 +185,18 @@ function Person:setPosition(_i, _j)
     self.movement.next_x = x
     self.movement.next_y = y
 
+    self.movement.last_i = _i
+    self.movement.last_j = _j
+    self.movement.next_i = _i
+    self.movement.next_j = _j
+
     self.movement.current_time = self.movement.total_time
+end
+
+function Person:getLastPosition()
+    return self.movement.last_x, self.movement.last_y
+end
+
+function Person:getLastMapPosition()
+    return self.movement.last_i, self.movement.last_j
 end
