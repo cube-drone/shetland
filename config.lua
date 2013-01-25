@@ -10,5 +10,5 @@ window_name = "Shetland"
 viewport_width = 1024
 viewport_height = 768
 
-map_section_width = 10
-map_section_height = 10
+map_grid_width = 10
+map_grid_height = 10

@@ -9,8 +9,6 @@ map_layer = nil
 person_layer = nil
 gui_layer = nil
 
-primary_map = nil
-
 -- Game Loads
 require 'game.input'
 require 'game.background'
@@ -24,7 +22,7 @@ local simulation_grid = SimulationGrid:new()
 simulation_grid:mainLoop()
 
 local dude = Person:new(nil)
-dude:setMap(primary_map)
+dude:setMap(simulation_grid.grid)
 dude:setPosition(0, 0)
 
 local function moveDude()

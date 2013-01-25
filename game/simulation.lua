@@ -16,15 +16,17 @@ function SimulationGrid:new(m)
     MOAIRenderMgr.pushRenderPass(self.map_layer)
 
     -- Create a logical grid
-    self.grid = Map:new(nil, game.generated.base.width, game.generated.base.height, game.generated.base.tiles.outer_grid)
+    self.grid = Map:new(nil, nil, game.generated.base.width, game.generated.base.height, game.generated.base.tiles.outer_grid)
 
     -- Create display tiles for this grid
     self.tiles = MOAIProp2D.new()
     self.tiles:setDeck(self.tileset)
-    self.tiles:setGrid(self.grid:activeSection())
+    self.tiles:setGrid(self.grid.grid)
 
-    local tiles_x = 0 - self.grid.tile_width * (self.grid.section_width / 2) 
-    local tiles_y = 0 - self.grid.tile_height * (self.grid.section_height / 2)
+    self.grid.prop = self.tiles
+
+    local tiles_x = 0 - self.grid.tile_width * (self.grid.grid_width / 2) 
+    local tiles_y = 0 - self.grid.tile_height * (self.grid.grid_height / 2)
     self.tiles:setLoc( tiles_x, tiles_y ) 
 
     self.map_layer:insertProp( self.tiles )
