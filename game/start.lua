@@ -23,7 +23,7 @@ simulation_grid:mainLoop()
 
 local dude = Person:new(nil)
 dude:setMap(simulation_grid.grid)
-dude:setPosition(0, 0)
+dude:setPosition(5, 5)
 
 local function moveDude()
     dir = math.random(4)
