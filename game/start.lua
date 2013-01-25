@@ -14,8 +14,6 @@ primary_map = nil
 -- Game Loads
 require 'game.input'
 require 'game.background'
-require 'game.map'
-require 'game.grid'
 require "game.tiles" 
 require 'game.person'
 require 'game.simulation'
