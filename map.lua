@@ -152,7 +152,12 @@ function Map:stageToMap(map_prop, x, y)
 end
 
 function Map:mapToStage(map_prop, i, j)
-    
+    local prop_x, prop_y = map_prop:getLoc()
+
+    local x = prop_x + (i * self.tile_width)
+    local y = prop_y + (j * self.tile_height)
+
+    return x, y
 end
 
 -- Sets tilemap index for tile x,y on the active tile

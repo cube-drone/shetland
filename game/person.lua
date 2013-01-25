@@ -8,7 +8,7 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
-Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1 }
+Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 10, movement = { map = nil, total_time = 10, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil } }
 
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
@@ -37,12 +37,14 @@ local function initAnimation(p)
         while true do
             local action = MOAITimer.new()
             action:setMode(MOAITimer.NORMAL)
-            action:setSpeed(10)
+            action:setSpeed(p.tick_speed)
             action:start()
 
             while action:isBusy() do
                 coroutine:yield()
             end 
+
+            -- Select animation frame
 
             local frame_list = nil
             if p.direction == Person.MOVE_TOWARDS then
@@ -55,9 +57,9 @@ local function initAnimation(p)
                 frame_list = walk_left
             end
 
-            local next_index = p.index + direction
-            if frame_list[next_index] ~= nil then
-                p.index = next_index
+            local next_xndex = p.index + direction
+            if frame_list[next_xndex] ~= nil then
+                p.index = next_xndex
             else 
                 direction = direction * -1
                 p.index = p.index + direction
@@ -65,11 +67,34 @@ local function initAnimation(p)
 
             p.prop:setIndex(frame_list[p.index])
 
+            -- Move to new position if needed
+
+            if p.movement.current_time <= p.movement.total_time then
+                p.movement.current_time = p.movement.current_time + p.tick_speed
+                if p.movement.current_time > p.movement.total_time then
+                    p.movement.current_time = p.movement.total_time
+                end
+
+                local percent = p.movement.curve:getValueAtTime(p.movement.current_time)
+
+                local x = p.movement.last_x + ((p.movement.next_x - p.movement.last_x) * percent)
+                local y = p.movement.last_y + ((p.movement.next_y - p.movement.last_y) * percent)
+
+                p.prop:setPiv(x, y)
+            end
+
             coroutine:yield()
         end
     end
     p.thread = MOAICoroutine.new()
     p.thread:run(animFunc)
+end
+
+local function initCurve(p)
+    p.movement.curve = MOAIAnimCurve.new()
+    p.movement.curve:reserveKeys(2)
+    p.movement.curve:setKey(1, 0, 0, MOAIEaseType.SOFT_EASE_IN)
+    p.movement.curve:setKey(2, p.movement.total_time, 1.0)
 end
 
 function Person:new(p)
@@ -80,6 +105,7 @@ function Person:new(p)
 
     initProp(p)
     initAnimation(p)
+    initCurve(p)
 
     return p
 end
@@ -112,4 +138,41 @@ function Person:setActions(a)
     self.actions = a
 end
 
+function Person:setMap(m)
+    self.movement.map = m
+end
 
+function Person:moveTo(i, j)
+    self.movement.current_time = 0
+
+    x, y = self.movement.map:mapToStage(i, j)
+
+    self.movement.last_x = self.movement.next_x
+    self.movement.last_y = self.movement.next_y
+
+    self.movement.next_x = x
+    self.movement.next_y = y
+
+    self.movement.current_time = 0
+
+    if self.movement.next_x > self.movement.last_x then
+        self:setDirection(Person.MOVE_RIGHT)
+    elseif self.movement.next_x < self.movement.last_x then
+        self:setDirection(Person.MOVE_LEFT)
+    elseif self.movement.next_y > self.movement.last_y then
+        self:setDirection(Person.MOVE_AWAY)
+    else -- if self.movement.next_y < self.movement.last_y then
+        self:setDirection(Person.MOVE_TOWARDS)
+    end
+end
+
+function Person:setPosition(_i, _j)
+    x, y = self.movement.map:mapToStage(i, j)
+
+    self.movement.last_x = x
+    self.movement.last_y = y
+    self.movement.next_x = x
+    self.movement.next_y = y
+
+    self.movement.current_time = self.movement.total_time
+end
