@@ -8,7 +8,7 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
-Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 10, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
+Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
 
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
@@ -34,6 +34,7 @@ end
 local function initAnimation(p)
     local animFunc = function()
         local direction = 1
+        local anim_buffer = 0
         while true do
             local action = MOAITimer.new()
             action:setMode(MOAITimer.NORMAL)
@@ -45,7 +46,7 @@ local function initAnimation(p)
             end 
 
             -- Select animation frame
-
+            anim_buffer = anim_buffer + 1
             local frame_list = nil
             if p.direction == Person.MOVE_TOWARDS then
                 frame_list = walk_towards 
@@ -57,13 +58,15 @@ local function initAnimation(p)
                 frame_list = walk_left
             end
 
-            local next_xndex = p.index + direction
-            if frame_list[next_xndex] ~= nil then
-                p.index = next_xndex
-            else 
-                direction = direction * -1
-                p.index = p.index + direction
-            end 
+            if anim_buffer % p.anim_skip == 0 then
+                local next_index = p.index + direction
+                if frame_list[next_index] ~= nil then
+                    p.index = next_index
+                else 
+                    direction = direction * -1
+                    p.index = p.index + direction
+                end 
+            end
 
             p.prop:setIndex(frame_list[p.index])
 
@@ -82,8 +85,8 @@ local function initAnimation(p)
 
                 local percent = p.movement.curve:getValueAtTime(p.movement.current_time)
 
-                local x = p.movement.last_x + ((p.movement.next_x - p.movement.last_x) * percent)
-                local y = p.movement.last_y + ((p.movement.next_y - p.movement.last_y) * percent)
+                local x = p.movement.last_x + ((p.movement.next_x - p.movement.last_x) * percent) + (0.5 * p.movement.map.tile_width)
+                local y = p.movement.last_y + ((p.movement.next_y - p.movement.last_y) * percent) + (0.5 * p.movement.map.tile_height)
 
                 p.prop:setPiv(x, y)
             end
@@ -170,13 +173,13 @@ function Person:moveTo(i, j)
     self.movement.current_time = 0
 
     if self.movement.next_x > self.movement.last_x then
-        self:setDirection(Person.MOVE_RIGHT)
-    elseif self.movement.next_x < self.movement.last_x then
         self:setDirection(Person.MOVE_LEFT)
+    elseif self.movement.next_x < self.movement.last_x then
+        self:setDirection(Person.MOVE_RIGHT)
     elseif self.movement.next_y > self.movement.last_y then
-        self:setDirection(Person.MOVE_AWAY)
-    else -- if self.movement.next_y < self.movement.last_y then
         self:setDirection(Person.MOVE_TOWARDS)
+    else -- if self.movement.next_y < self.movement.last_y then
+        self:setDirection(Person.MOVE_AWAY)
     end
 end
 
@@ -196,10 +199,14 @@ function Person:setPosition(_i, _j)
     self.movement.current_time = self.movement.total_time
 end
 
-function Person:getLastPosition()
-    return self.movement.last_x, self.movement.last_y
+function Person:atPosition()
+    return self.movement.next_x == self.movement.last_x and self.movement.next_y == self.movement.last_y
 end
 
-function Person:getLastMapPosition()
-    return self.movement.last_i, self.movement.last_j
+function Person:getPosition()
+    return self.movement.next_x, self.movement.next_y
+end
+
+function Person:getMapPosition()
+    return self.movement.next_i, self.movement.next_j
 end

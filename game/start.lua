@@ -30,12 +30,12 @@ local function moveDude()
 
     log.info("game", "Moving")
 
-    local last_i, last_j = dude:getLastMapPosition()
+    local last_i, last_j = dude:getMapPosition()
     local i = last_i
     local j = last_j
 
     if dir == 1 then
-        j = j- 1
+        j = j - 1
     elseif dir == 2 then
         j = j + 1
     elseif dir == 3 then
