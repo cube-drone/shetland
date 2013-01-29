@@ -8,6 +8,8 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
+Person = { }
+
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
 Person.MOVE_RIGHT = 2
