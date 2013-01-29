@@ -35,6 +35,10 @@ function Map:new(m, prop, tile_width, tile_height, _default_tile)
     return m
 end
 
+function Map:isValid(i, j)
+    return i > 0 && j > 0 && i < self.grid_width && j < self.grid_height;
+end
+
 -- Converts world coordinates to Map coordinates
 function Map:stageToMap(x, y)
     -- Get the base location, in stage coordinates, of the map prop
