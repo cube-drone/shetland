@@ -12,7 +12,6 @@ gui_layer = nil
 -- Game Loads
 require 'game.input'
 require 'game.background'
-require "game.tiles" 
 require 'game.person'
 require 'game.simulation'
 
