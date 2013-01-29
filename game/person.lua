@@ -133,19 +133,6 @@ local function initCurve(p)
     p.movement.curve:setKey(2, p.movement.total_time, 1.0)
 end
 
-function Person:new(p)
-    assert (self ~= nil, "It's :new, not .new, moron.")
-    p = p or { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
-    setmetatable( p, self )
-    self.__index = Person
-
-    initProp(p)
-    initAnimation(p)
-    initCurve(p)
-
-    return p
-end
-
 function Person:getThread()
     return self.thread
 end
@@ -264,4 +251,22 @@ function Person:randomWalk()
 
     self:moveTo(i, j)
     
+end
+
+function Person:new(p, map, i, j)
+    assert (self ~= nil, "It's :new, not .new, moron.")
+    p = p or { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
+    setmetatable( p, self )
+    self.__index = Person
+
+    -- Can now use p like a Person
+
+    p:setMap(map)
+    p:setPosition(i, j)
+
+    initProp(p)
+    initAnimation(p)
+    initCurve(p)
+
+    return p
 end
