@@ -210,3 +210,26 @@ end
 function Person:getMapPosition()
     return self.movement.next_i, self.movement.next_j
 end
+
+function Person:randomWalk()
+    local dir = math.random(4)
+
+    log.info("game", "Moving")
+
+    local last_i, last_j = self:getMapPosition()
+    local i = last_i
+    local j = last_j
+
+    if dir == 1 then
+        j = j - 1
+    elseif dir == 2 then
+        j = j + 1
+    elseif dir == 3 then
+        i = i - 1
+    elseif dir == 4 then
+        i = i + 1
+    end
+
+    self:moveTo(i, j)
+    
+end
