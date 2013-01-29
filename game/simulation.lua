@@ -34,8 +34,10 @@ function SimulationGrid:new(m)
 
     -- Initialize dudes
     self.dudes = Array:new()
-    return m
+
+    self.tick_functions = Array:new()
     
+    return m
 end
 
 function SimulationGrid:handleClicks()
@@ -56,6 +58,10 @@ function SimulationGrid:addDude(dude)
     self.dudes:append( dude )
 end
 
+function SimulationGrid:addTick(func)
+    self.tick_functions:append( func )
+end
+
 function SimulationGrid:mainLoop()
     self.counter = 0
     local loop = function()
@@ -67,7 +73,7 @@ function SimulationGrid:mainLoop()
 
             while action:isBusy() do
                 coroutine:yield()
-            end 
+            end
 
             self:tick()
 
@@ -80,6 +86,6 @@ end
 
 function SimulationGrid:tick()
     log.info('grid', "tick " .. self.counter)
-    self.grid:setTile(self.counter, 5, game.generated.base.tiles.empty)
+    self.tick_functions:each( function( fn ) fn() end )
     self.counter = self.counter + 1
 end
