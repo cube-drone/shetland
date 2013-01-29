@@ -8,7 +8,7 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
-Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
+Person = { }
 
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
@@ -19,6 +19,26 @@ local walk_towards = { game.generated.mans.tiles.down_1, game.generated.mans.til
 local walk_away = { game.generated.mans.tiles.up_1, game.generated.mans.tiles.up_2 }
 local walk_right = { game.generated.mans.tiles.right_1, game.generated.mans.tiles.right_2 }
 local walk_left = { game.generated.mans.tiles.left_1, game.generated.mans.tiles.left_2 }
+
+local function removeFromList(list, person)
+    local i = 1
+    while list[i] do
+        if p == person then
+            break
+        end
+        i = i + 1
+    end
+    if list[i] then 
+        table.remove(list, i)
+        return true
+    else 
+        return false
+    end 
+end
+
+local function addToList(list, person)
+    table.insert(list, person)
+end
 
 local function initProp(p)
     p.prop = MOAIProp2D.new()
@@ -71,11 +91,19 @@ local function initAnimation(p)
             p.prop:setIndex(frame_list[p.index])
 
             -- Move to new position if needed
+            local next_state = p.movement.map:getState(p.movement.next_i, p.movement.next_j)
+            local last_state = p.movement.map:getState(p.movement.last_i, p.movement.last_j)
 
             if p.movement.current_time <= p.movement.total_time then
                 p.movement.current_time = p.movement.current_time + p.tick_speed
                 if p.movement.current_time > p.movement.total_time then
                     p.movement.current_time = p.movement.total_time
+
+                    if last_state.persons == nil then last_state.persons = {} end
+                    if next_state.persons == nil then next_state.persons = {} end
+
+                    removeFromList(last_state.persons, self)
+                    addToList(next_state.persons, self)
 
                     p.movement.last_i = p.movement.next_i
                     p.movement.last_j = p.movement.next_j
@@ -103,19 +131,6 @@ local function initCurve(p)
     p.movement.curve:reserveKeys(2)
     p.movement.curve:setKey(1, 0, 0, MOAIEaseType.SOFT_EASE_IN)
     p.movement.curve:setKey(2, p.movement.total_time, 1.0)
-end
-
-function Person:new(p)
-    assert (self ~= nil, "It's :new, not .new, moron.")
-    p = p or Person
-    setmetatable( p, self )
-    self.__index = Person
-
-    initProp(p)
-    initAnimation(p)
-    initCurve(p)
-
-    return p
 end
 
 function Person:getThread()
@@ -154,6 +169,10 @@ function Person:setMap(m)
 end
 
 function Person:moveTo(i, j)
+    if not self.movement.map:isValid(i, j) then
+        log.error("Person", "Attempted to move to an invalid map position")
+    end
+
     self.movement.current_time = 0
 
     x, y = self.movement.map:mapToStage(i, j)
@@ -233,4 +252,22 @@ function Person:randomWalk()
 
     self:moveTo(i, j)
     
+end
+
+function Person:new(p, map, i, j)
+    assert (self ~= nil, "It's :new, not .new, moron.")
+    p = p or { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
+    setmetatable( p, self )
+    self.__index = Person
+
+    -- Can now use p like a Person
+
+    p:setMap(map)
+    p:setPosition(i, j)
+
+    initProp(p)
+    initAnimation(p)
+    initCurve(p)
+
+    return p
 end

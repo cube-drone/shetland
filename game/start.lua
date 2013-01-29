@@ -20,12 +20,12 @@ local simulation_grid = SimulationGrid:new()
 -- TODO: game.person's render layer shouldn't be defined as a global in game.person
 require 'game.person'
 
-local dude = Person:new(nil)
-dude:setMap(simulation_grid.grid)
-dude:setPosition(5, 5)
+local dude = Person:new(nil, simulation_grid.grid, 5, 5)
+local dude2 = Person:new(nil, simulation_grid.grid, 5, 5)
 
 local function moveDude()
     dude:randomWalk()
+    dude2:randomWalk()
 end
 simulation_grid:addTick(moveDude)
 

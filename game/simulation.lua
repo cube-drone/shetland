@@ -6,6 +6,7 @@ function SimulationGrid:new(m)
     assert (self ~= nil, "It's :new, not .new, Newman.")
     m = m or {}
     setmetatable(m, self)
+    self.__index = SimulationGrid
 
     -- Fetch a tileset for this grid
     self.tileset = tiles.addTileset( game.generated.grid ) 
@@ -30,7 +31,6 @@ function SimulationGrid:new(m)
     self.tiles:setLoc( tiles_x, tiles_y ) 
 
     self.map_layer:insertProp( self.tiles )
-    self.__index = SimulationGrid
 
     -- Initialize dudes
     self.dudes = Array:new()

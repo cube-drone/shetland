@@ -1,4 +1,4 @@
-Map = { prop = nil, tile_width = tile_width, tile_height = tile_height, grid_width = config.map_grid_width, grid_height = config.map_grid_height }
+Map = { prop = nil, tile_width = tile_width, tile_height = tile_height, grid_width = config.map_grid_width, grid_height = config.map_grid_height, states = {} }
 
 -- Recover from the cache or build a new entry
 local function initGrid(m)
@@ -33,6 +33,10 @@ function Map:new(m, prop, tile_width, tile_height, _default_tile)
     setmetatable(m, self)
     self.__index = Map
     return m
+end
+
+function Map:isValid(i, j)
+    return i > 0 and j > 0 and i < self.grid_width and j < self.grid_height
 end
 
 -- Converts world coordinates to Map coordinates
@@ -77,4 +81,23 @@ end
 -- Sets flags for tile x,y on the active tile
 function Map:setTileFlags(x, y, mask)
    return self.grid:setTileFlags(x, y, mask)
+end
+
+-- Sets state for the position i,j on the map
+function Map:setState(i, j, state)
+    if self.states[i] == nil then
+        self.states[i] = {}
+    end
+    self.states[i][j] = state
+end
+
+-- Gets the state for the position i,j on the map
+function Map:getState(i, j)
+    if self.states[i] == nil then
+        self.states[i] = {}
+    end
+    if self.states[i][j] == nil then
+        self.states[i][j] = {}
+    end
+    return self.states[i][j]
 end
