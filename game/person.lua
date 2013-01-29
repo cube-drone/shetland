@@ -20,6 +20,26 @@ local walk_away = { game.generated.mans.tiles.up_1, game.generated.mans.tiles.up
 local walk_right = { game.generated.mans.tiles.right_1, game.generated.mans.tiles.right_2 }
 local walk_left = { game.generated.mans.tiles.left_1, game.generated.mans.tiles.left_2 }
 
+local function removeFromList(list, person)
+    local i = 1
+    while list[i] do
+        if p == person then
+            break
+        end
+        i = i + 1
+    end
+    if list[i] then 
+        table.remove(list, i)
+        return true
+    else 
+        return false
+    end 
+end
+
+local function addToList(list, person)
+    table.insert(list, person)
+end
+
 local function initProp(p)
     p.prop = MOAIProp2D.new()
     p.prop:setDeck(p.tiles)
@@ -71,11 +91,19 @@ local function initAnimation(p)
             p.prop:setIndex(frame_list[p.index])
 
             -- Move to new position if needed
+            local next_state = p.movement.map:getState(p.movement.next_i, p.movement.next_j)
+            local last_state = p.movement.map:getState(p.movement.last_i, p.movement.last_j)
 
             if p.movement.current_time <= p.movement.total_time then
                 p.movement.current_time = p.movement.current_time + p.tick_speed
                 if p.movement.current_time > p.movement.total_time then
                     p.movement.current_time = p.movement.total_time
+
+                    if last_state.persons == nil then last_state.persons = {} end
+                    if next_state.persons == nil then next_state.persons = {} end
+
+                    removeFromList(last_state.persons, self)
+                    addToList(next_state.persons, self)
 
                     p.movement.last_i = p.movement.next_i
                     p.movement.last_j = p.movement.next_j
@@ -154,6 +182,10 @@ function Person:setMap(m)
 end
 
 function Person:moveTo(i, j)
+    if not self.movement.map:isValid(i, j) then
+        log.error("Person", "Attempted to move to an invalid map position")
+    end
+
     self.movement.current_time = 0
 
     x, y = self.movement.map:mapToStage(i, j)
