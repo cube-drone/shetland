@@ -79,6 +79,9 @@ if not os.path.exists( args.output ):
     print args.output, " is not a valid path. Please provide an --output argument to tilebitch.py."
     exit()
 
+if not os.path.exists( args.output_moai ):
+    print args.output, " is not a valid path. Please provide an --output_moai argument to tilebitch.py."
+    exit()
 # List the subdirectories of input
 files = {}
 
@@ -90,7 +93,7 @@ for thing in os.listdir( args.input ):
         files[title] = []
         for thing in os.listdir( directory_name ):
             file_path = os.path.abspath( os.path.join( args.input, directory_name, thing ) )
-            if os.path.isfile( file_path ) and file_path.endswith(".png"):
+            if os.path.isfile( file_path ):
                 file_title = thing[:-4]
                 files[title].append(  ( file_title, file_path ) )
             else:

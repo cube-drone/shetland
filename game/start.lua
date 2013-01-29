@@ -12,13 +12,13 @@ gui_layer = nil
 -- Game Loads
 require 'game.input'
 require 'game.background'
-require 'game.person'
 require 'game.simulation'
 
 render:init()
-
 local simulation_grid = SimulationGrid:new()
-simulation_grid:mainLoop()
+
+-- TODO: game.person's render layer shouldn't be defined as a global in game.person
+require 'game.person'
 
 local dude = Person:new(nil)
 dude:setMap(simulation_grid.grid)
@@ -28,6 +28,8 @@ local function moveDude()
     dude:randomWalk()
 end
 simulation_grid:addTick(moveDude)
+
+simulation_grid:mainLoop()
 
 input.registerEventCallback("UP", function() dude:setDirection(Person.MOVE_AWAY) end )
 input.registerEventCallback("DOWN", function() dude:setDirection(Person.MOVE_TOWARDS) end )

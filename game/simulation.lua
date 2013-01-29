@@ -1,4 +1,4 @@
-require "game.generated.base"
+require "game.generated.grid"
 
 SimulationGrid = { }
 
@@ -8,7 +8,7 @@ function SimulationGrid:new(m)
     setmetatable(m, self)
 
     -- Fetch a tileset for this grid
-    self.tileset = tiles.addTileset( game.generated.base ) 
+    self.tileset = tiles.addTileset( game.generated.grid ) 
 
     -- Create a view layer for this grid
     self.map_layer = layers.addLayer()
@@ -16,7 +16,7 @@ function SimulationGrid:new(m)
     MOAIRenderMgr.pushRenderPass(self.map_layer)
 
     -- Create a logical grid
-    self.grid = Map:new(nil, nil, game.generated.base.width, game.generated.base.height, game.generated.base.tiles.outer_grid)
+    self.grid = Map:new(nil, nil, game.generated.grid.width, game.generated.grid.height, game.generated.grid.tiles.empty)
 
     -- Create display tiles for this grid
     self.tiles = MOAIProp2D.new()
@@ -46,10 +46,10 @@ function SimulationGrid:handleClicks()
         log.info('game', "Got pointer, it's at x=" .. pointer.x .. " y=" .. pointer.y)
         local world_x, world_y = self.map_layer:wndToWorld(pointer.x, pointer.y)
         log.info('game', "At world coords x=" .. world_x .. " y=" .. world_y)
-        local i,j,x,y = self.grid:worldToMap(self.tiles, world_x, world_y)
+        local i,j,x,y = self.grid:stageToMap( world_x, world_y)
         log.info('game', "At map coords i=" .. i .. " j=" .. j .. " x=" .. x .. " y=" .. y)
 
-        self.grid:setTile(x, y, game.generated.base.tiles.outer_grid)
+        self.grid:setTile(x, y, game.generated.grid.tiles.selected)
     end
     return returnFunction
 end

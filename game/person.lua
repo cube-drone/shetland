@@ -147,7 +147,7 @@ function Person:setActions(a)
 end
 
 function Person:setMap(m)
-    if map == nil then
+    if m == nil then
         log.error("Person", "setMap provided a nil value")
     end
     self.movement.map = m
@@ -185,6 +185,7 @@ end
 
 function Person:setPosition(_i, _j)
     x, y = self.movement.map:mapToStage(_i, _j)
+    log.info( "person", "setting position: x: "..x.." y: "..y )
 
     self.movement.last_x = x
     self.movement.last_y = y
