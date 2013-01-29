@@ -36,7 +36,7 @@ function Map:new(m, prop, tile_width, tile_height, _default_tile)
 end
 
 function Map:isValid(i, j)
-    return i > 0 && j > 0 && i < self.grid_width && j < self.grid_height;
+    return i > 0 and j > 0 and i < self.grid_width and j < self.grid_height
 end
 
 -- Converts world coordinates to Map coordinates
