@@ -24,8 +24,13 @@ local dude = Person:new(nil)
 dude:setMap(simulation_grid.grid)
 dude:setPosition(5, 5)
 
+local dude2 = Person:new(nil)
+dude2:setMap(simulation_grid.grid)
+dude2:setPosition(4, 5)
+
 local function moveDude()
     dude:randomWalk()
+    dude2:randomWalk()
 end
 simulation_grid:addTick(moveDude)
 

@@ -8,8 +8,6 @@ person_tiles:setRect(-16, -16, 16, 16)
 person_layer:setViewport(config.viewport)
 MOAIRenderMgr.pushRenderPass(person_layer)
 
-Person = { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
-
 Person.MOVE_TOWARDS = 0
 Person.MOVE_AWAY = 1
 Person.MOVE_RIGHT = 2
@@ -135,7 +133,7 @@ end
 
 function Person:new(p)
     assert (self ~= nil, "It's :new, not .new, moron.")
-    p = p or Person
+    p = p or { prop = nil, tiles = person_tiles, data = {}, direction = 0, animation = nil, actions = nil, thread = nil, index = 1, tick_speed = 100, anim_skip = 3, movement = { map = nil, total_time = 1000, current_time = 0, last_x = 0, last_y = 0, next_x = 0, next_y = 0, curve = nil, last_i = 0, last_j = 0, next_i = 0, next_j = 0 } }
     setmetatable( p, self )
     self.__index = Person
 
